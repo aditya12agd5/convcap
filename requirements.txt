@@ -1,0 +1,5 @@
+matplotlib==2.1.0
+scikit_image==0.13.1
+tqdm==4.19.4
+numpy==1.13.3
+Pillow==4.3.0
