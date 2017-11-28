@@ -1,6 +1,6 @@
 # ConvCap: Convolutional Image Captioning
 
-PyTorch implementation of -- [Convolutional Image Captioning]()                 
+PyTorch implementation of -- [Convolutional Image Captioning](https://arxiv.org/abs/1711.09151)                 
 
 For setup first install [PyTorch-0.2.0_3](http://pytorch.org/). For this code we used cuda-8.0, 
 python-2.7 and pip
@@ -66,7 +66,7 @@ If you use this code, please cite
   author = {Jyoti Aneja, Aditya Deshpande and Alexander Schwing},          
   title = {Convolutional Image Captioning},                                                    
   journal={CoRR},                                              
-  url={},                                                           
+  url={https://arxiv.org/abs/1711.09151},                                                           
   year={2017}                                                                                       
 } 
 ```
