@@ -59,7 +59,7 @@ def train(args):
   model_imgcnn.train(True) 
 
   #Convcap model
-  model_convcap = convcap(train_data.numwords, args.num_layers)
+  model_convcap = convcap(train_data.numwords, args.num_layers, is_attention=args.attention)
   model_convcap.cuda()
   model_convcap.train(True)
 
@@ -76,7 +76,7 @@ def train(args):
 
   for epoch in range(args.epochs):
     loss_train = 0.
-
+    
     if(epoch == args.finetune_after):
       img_optimizer = optim.RMSprop(model_imgcnn.parameters(), lr=1e-5)
       img_scheduler = lr_scheduler.StepLR(img_optimizer, step_size=args.lr_step_size, gamma=.1)
@@ -104,12 +104,15 @@ def train(args):
       imgsfeats, imgsfc7 = repeat_img_per_cap(imgsfeats, imgsfc7, ncap_per_img)
       _, _, feat_h, feat_w = imgsfeats.size()
 
-      wordact, attn = model_convcap(imgsfeats, imgsfc7, wordclass_v)
+      if(args.attention == True):
+        wordact, attn = model_convcap(imgsfeats, imgsfc7, wordclass_v)
+        attn = attn.view(batchsize_cap, max_tokens, feat_h, feat_w)
+      else:
+        wordact, _ = model_convcap(imgsfeats, imgsfc7, wordclass_v)
 
       wordact = wordact[:,:,:-1]
       wordclass_v = wordclass_v[:,1:]
       mask = mask[:,1:].contiguous()
-      attn = attn.view(batchsize_cap, max_tokens, feat_h, feat_w)
 
       wordact_t = wordact.permute(0, 2, 1).contiguous().view(\
         batchsize_cap*(max_tokens-1), -1)
@@ -118,11 +121,15 @@ def train(args):
       
       maskids = torch.nonzero(mask.view(-1)).numpy().reshape(-1)
 
-      #Cross-entropy loss and attention loss of Show, Attend and Tell
-      loss = F.cross_entropy(wordact_t[maskids, ...], \
-        wordclass_t[maskids, ...].contiguous().view(maskids.shape[0])) \
-        + (torch.sum(torch.pow(1. - torch.sum(attn, 1), 2)))\
-        /(batchsize_cap*feat_h*feat_w)
+      if(args.attention == True):
+        #Cross-entropy loss and attention loss of Show, Attend and Tell
+        loss = F.cross_entropy(wordact_t[maskids, ...], \
+          wordclass_t[maskids, ...].contiguous().view(maskids.shape[0])) \
+          + (torch.sum(torch.pow(1. - torch.sum(attn, 1), 2)))\
+          /(batchsize_cap*feat_h*feat_w)
+      else:
+        loss = F.cross_entropy(wordact_t[maskids, ...], \
+          wordclass_t[maskids, ...].contiguous().view(maskids.shape[0]))
 
       loss_train = loss_train + loss.data[0]
 

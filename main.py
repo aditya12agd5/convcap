@@ -52,6 +52,14 @@ parser.add_argument('-sc', '--score_select', type=str, default='CIDEr',\
 parser.add_argument('--beam_size', type=int, default=1, \
                     help='beam size to use for test') 
 
+parser.add_argument('--attention', dest='attention', action='store_true', \
+                    help='Use this for convcap with attention (by default set)')
+
+parser.add_argument('--no-attention', dest='attention', action='store_false', \
+                    help='Use this for convcap without attention')
+
+parser.set_defaults(attention=True)
+
 args = parser.parse_args()
 
 

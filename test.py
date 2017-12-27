@@ -46,7 +46,7 @@ def test(args, split, modelfn=None, model_convcap=None, model_imgcnn=None):
     model_imgcnn = Vgg16Feats()
     model_imgcnn.cuda() 
 
-    model_convcap = convcap(data.numwords, args.num_layers)
+    model_convcap = convcap(data.numwords, args.num_layers, is_attention=args.attention)
     model_convcap.cuda()
 
     print('[DEBUG] Loading checkpoint %s' % modelfn)
@@ -75,14 +75,14 @@ def test(args, split, modelfn=None, model_convcap=None, model_imgcnn=None):
     wordclass_feed[:,0] = data.wordlist.index('<S>') 
 
     outcaps = np.empty((batchsize, 0)).tolist()
-    attn_buffer = np.zeros((batchsize, max_tokens, 3, 224, 224), dtype='f')
 
     for j in range(max_tokens-1):
       wordclass = Variable(torch.from_numpy(wordclass_feed)).cuda()
-      wordact, attn = model_convcap(imgsfeats, imgsfc7, wordclass)
+
+      wordact, _ = model_convcap(imgsfeats, imgsfc7, wordclass)
+
       wordact = wordact[:,:,:-1]
       wordact_t = wordact.permute(0, 2, 1).contiguous().view(batchsize*(max_tokens-1), -1)
-      attn.detach()
 
       wordprobs = F.softmax(wordact_t).cpu().data.numpy()
       wordids = np.argmax(wordprobs, axis=1)

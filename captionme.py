@@ -74,7 +74,8 @@ def captionme(args, modelfn):
   #For trained model released with the code
   batchsize = 1
   max_tokens = 15
-  num_layers = 3  
+  num_layers = 3 
+  is_attention = True 
   worddict_tmp = pickle.load(open('data/wordlist.p', 'rb'))
   wordlist = [l for l in iter(worddict_tmp.keys()) if l != '</S>']
   wordlist = ['EOS'] + sorted(wordlist)
@@ -83,7 +84,7 @@ def captionme(args, modelfn):
   model_imgcnn = Vgg16Feats()
   model_imgcnn.cuda() 
 
-  model_convcap = convcap(numwords, num_layers)
+  model_convcap = convcap(numwords, num_layers, is_attention = is_attention)
   model_convcap.cuda()
 
   print('[DEBUG] Loading checkpoint %s' % modelfn)
