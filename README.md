@@ -38,6 +38,12 @@ python main.py model_dir
 model_dir is the directory to save model & results. Run python main.py -h for details about other
 command line arguments. Two models will be saved, model.pth at the end of every epoch and 
 bestmodel.pth, the model that obtains best score (on CIDEr metric by default) over all epochs. 
+ 
+To train the model without attention use the --no-attention flag,
+
+```
+python main.py --no-attention model_dir
+```
 
 To test on MSCOCO with the released model,
 
