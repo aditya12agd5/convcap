@@ -63,7 +63,8 @@ class convcap(nn.Module):
   
   def __init__(self, num_wordclass, num_layers=1, is_attention=True, nfeats=512, dropout=.1):
     super(convcap, self).__init__()
-    self.nimgfeats = 4096
+    #self.nimgfeats = 4096
+    self.nimgfeats = 2048
     self.is_attention = is_attention
     self.nfeats = nfeats
     self.dropout = dropout 

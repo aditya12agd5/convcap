@@ -20,7 +20,9 @@ from torchvision import models
 
 from coco_loader import coco_loader
 from convcap import convcap
-from vggfeats import Vgg16Feats
+#from vggfeats import Vgg16Feats
+#from resnet101 import Resnet101Feats
+from resnet152 import Resnet152Feats
 from tqdm import tqdm 
 from test import test 
 
@@ -54,7 +56,9 @@ def train(args):
     batch_size=args.batchsize, shuffle=True, drop_last=True)
 
   #Load pre-trained imgcnn
-  model_imgcnn = Vgg16Feats()  
+  #model_imgcnn = Vgg16Feats()  
+  #model_imgcnn = Resnet101Feats()
+  model_imgcnn = Resnet152Feats()
   model_imgcnn.cuda() 
   model_imgcnn.train(True) 
 

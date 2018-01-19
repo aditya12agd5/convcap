@@ -19,7 +19,9 @@ from tqdm import tqdm
 from coco_loader import coco_loader
 from torchvision import models                                                                     
 from convcap import convcap
-from vggfeats import Vgg16Feats
+#from vggfeats import Vgg16Feats
+#from resnet101 import Resnet101Feats
+from resnet152 import Resnet152Feats
 from evaluate import language_eval
 
 
@@ -43,7 +45,9 @@ def test(args, split, modelfn=None, model_convcap=None, model_imgcnn=None):
   print('[DEBUG] Running inference on %s with %d batches' % (split, num_batches))
 
   if(modelfn is not None):
-    model_imgcnn = Vgg16Feats()
+    #model_imgcnn = Vgg16Feats()
+    #model_imgcnn = Resnet101Feats()
+    model_imgcnn = Resnet152Feats()
     model_imgcnn.cuda() 
 
     model_convcap = convcap(data.numwords, args.num_layers, is_attention=args.attention)

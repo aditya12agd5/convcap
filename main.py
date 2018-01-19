@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import matplotlib; matplotlib.use('Agg')
+#import matplotlib; matplotlib.use('Agg')
 import os
 import os.path as osp
 import argparse
