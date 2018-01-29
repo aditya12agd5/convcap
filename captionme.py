@@ -47,6 +47,8 @@ parser.add_argument('--attention', dest='attention', action='store_true', \
 parser.add_argument('--no-attention', dest='attention', action='store_false', \
                     help='set caption model without attention in use')
 
+parser.set_defaults(attention=True)
+
 args = parser.parse_args()
 
 def load_images(image_dir):
