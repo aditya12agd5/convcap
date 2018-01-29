@@ -41,6 +41,12 @@ parser.add_argument('-g', '--gpu', type=int, default=0,\
 parser.add_argument('--beam_size', type=int, default=1, \
                     help='beam size to use to generate captions') 
 
+parser.add_argument('--attention', dest='attention', action='store_true', \
+                    help='set caption model with attention in use (by default set)')
+
+parser.add_argument('--no-attention', dest='attention', action='store_false', \
+                    help='set caption model without attention in use')
+
 args = parser.parse_args()
 
 def load_images(image_dir):
@@ -75,7 +81,6 @@ def captionme(args, modelfn):
   batchsize = 1
   max_tokens = 15
   num_layers = 3 
-  is_attention = True 
   worddict_tmp = pickle.load(open('data/wordlist.p', 'rb'))
   wordlist = [l for l in iter(worddict_tmp.keys()) if l != '</S>']
   wordlist = ['EOS'] + sorted(wordlist)
@@ -84,7 +89,7 @@ def captionme(args, modelfn):
   model_imgcnn = Vgg16Feats()
   model_imgcnn.cuda() 
 
-  model_convcap = convcap(numwords, num_layers, is_attention = is_attention)
+  model_convcap = convcap(numwords, num_layers, is_attention = args.attention)
   model_convcap.cuda()
 
   print('[DEBUG] Loading checkpoint %s' % modelfn)
@@ -167,3 +172,4 @@ def main():
 
 if __name__ == '__main__': 
   main()
+
