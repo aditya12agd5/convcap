@@ -75,13 +75,13 @@ options
 If you use this code, please cite
                                                                                                     
 ```
-@article{AnejaConvImgCap17,                                                                  
-  author = {Jyoti Aneja, Aditya Deshpande and Alexander Schwing},          
+@inproceedings{AnejaConvImgCap17,                                                                  
+  author = {Jyoti Aneja and Aditya Deshpande and Alexander Schwing},          
   title = {Convolutional Image Captioning},                                                    
-  journal={CoRR},                                              
+  booktitle={Computer Vision and Pattern Recognition},                                              
   url={https://arxiv.org/abs/1711.09151},                                                           
-  year={2017}                                                                                       
-} 
+  year={2018}                                                                                       
+}
 ```
 
 The scores on MSCOCO test split (http://cs.stanford.edu/people/karpathy/deepimagesent/) for the 
