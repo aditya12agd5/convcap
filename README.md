@@ -1,24 +1,24 @@
 # ConvCap: Convolutional Image Captioning
 
-PyTorch implementation of -- [Convolutional Image Captioning](https://arxiv.org/abs/1711.09151)                 
+PyTorch implementation of -- [Convolutional Image Captioning](https://arxiv.org/abs/1711.09151)
 
-Clone the repository with the --recursive flag to recursively clone third party submodules. 
+Clone the repository with the --recursive flag to recursively clone third party submodules.
 For example,
 
 ```
 git clone --recursive https://github.com/aditya12agd5/convcap.git
 ```
 
-For setup first install [PyTorch-0.2.0_3](http://pytorch.org/). For this code we used cuda-8.0, 
+For setup first install [PyTorch-0.2.0_3](http://pytorch.org/). For this code we used cuda-8.0,
 python-2.7 and pip
 
 ```
-pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl 
+pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl
 ```
 
 torchvision-0.1.9 was installed from [source](https://github.com/pytorch/vision/releases)
 
-Install other python packages using 
+Install other python packages using
 
 ```
 pip install -r requirements.txt
@@ -26,16 +26,16 @@ pip install -r requirements.txt
 
 A wordlist is provided in ./data/wordlist.p
 
-Fetch the train/val/test splits (same as [NeuralTalk](http://cs.stanford.edu/people/karpathy/deepimagesent/)) 
+Fetch the train/val/test splits (same as [NeuralTalk](http://cs.stanford.edu/people/karpathy/deepimagesent/))
 for MSCOCO with
 
 ```
 bash scripts/fetch_splits.sh
 ```
 
-Download train2014, val2014 images and their annotations from the [MSCOCO](http://cocodataset.org/#download) 
+Download train2014, val2014 images and their annotations from the [MSCOCO](http://cocodataset.org/#download)
 webpage and put them in ./data/coco
- 
+
 To train the model on MSCOCO from scratch,
 
 ```
@@ -43,9 +43,9 @@ python main.py model_dir
 ```
 
 model_dir is the directory to save model & results. Run python main.py -h for details about other
-command line arguments. Two models will be saved, model.pth at the end of every epoch and 
-bestmodel.pth, the model that obtains best score (on CIDEr metric by default) over all epochs. 
- 
+command line arguments. Two models will be saved, model.pth at the end of every epoch and
+bestmodel.pth, the model that obtains best score (on CIDEr metric by default) over all epochs.
+
 To train the model without attention use the --no-attention flag,
 
 ```
@@ -58,7 +58,7 @@ To test on MSCOCO with the released model,
 python main.py -t 0 model_dir
 ```
 
-model_dir should contain the released model bestmodel.pth. Run, scripts/fetch_trained_model.sh, 
+model_dir should contain the released model bestmodel.pth. Run, scripts/fetch_trained_model.sh,
 it will store the trained bestmodel.pth in ./data/
 
 To caption your own images,
@@ -69,22 +69,29 @@ python captionme.py model_dir image_dir
 
 model_dir should contain the released model bestmodel.pth. Captions for *png, *jpg images in
 image_dir will be saved in image_dir/captions.txt. Run, python captionme.py -h for additional
-options 
+options
+
+# Using Docker Image
+To make it more easier to use in different environments, I (@sdsy888) made a [`docker image`](https://hub.docker.com/r/utasmile/convcap/) that set up all the requirements this repo needs. To use this docker, simply pull the imaeg using:
+```shell
+docker pull utasmile/convcap:with_java
+```
+**Make sure to include the `with_java` tag, since it'll raise error when runs without java environment**
 
 
 If you use this code, please cite
-                                                                                                    
+
 ```
-@inproceedings{AnejaConvImgCap17,                                                                  
-  author = {Jyoti Aneja and Aditya Deshpande and Alexander Schwing},          
-  title = {Convolutional Image Captioning},                                                    
-  booktitle={Computer Vision and Pattern Recognition},                                              
-  url={https://arxiv.org/abs/1711.09151},                                                           
-  year={2018}                                                                                       
+@inproceedings{AnejaConvImgCap17,
+  author = {Jyoti Aneja and Aditya Deshpande and Alexander Schwing},
+  title = {Convolutional Image Captioning},
+  booktitle={Computer Vision and Pattern Recognition},
+  url={https://arxiv.org/abs/1711.09151},
+  year={2018}
 }
 ```
 
-The scores on MSCOCO test split (http://cs.stanford.edu/people/karpathy/deepimagesent/) for the 
+The scores on MSCOCO test split (http://cs.stanford.edu/people/karpathy/deepimagesent/) for the
 trained model released with this code are,
 
 <table>
@@ -124,7 +131,7 @@ trained model released with this code are,
 
 </table>
 
-The scores on MSCOCO test set (40775 images) for captioning challenge 
+The scores on MSCOCO test set (40775 images) for captioning challenge
 (http://cocodataset.org/#captions-eval) for the trained model released with this code are,
 
 <table>
@@ -163,5 +170,3 @@ The scores on MSCOCO test set (40775 images) for captioning challenge
 </tr>
 
 </table>
-
-
